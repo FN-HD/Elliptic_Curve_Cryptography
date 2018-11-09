@@ -4,4 +4,5 @@ I am study about ECC in the seminar.
 
 EC in Elliptic_Curve is an object of an elliptic curve. 
 
-Gitが環境的なエラーを起こしたので新しいレポジトリーを作っています
+Gitが環境的なエラーを起こしたのでレポジトリーを全く同じ名前で作り直しています。
+おそらくほとんど影響はないはずです。
