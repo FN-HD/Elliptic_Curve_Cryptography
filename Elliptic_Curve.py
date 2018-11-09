@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from Rational_Number import RationalNumber
 from Polynomial import Polynomial
 
@@ -8,19 +7,11 @@ class EC(Polynomial):
         if 'internal_access' in dir(EC):
             if EC.internal_access:
                 EC.internal_access = False
-=======
-class EC:
-    def __init__(self, a3, a2, a1, a0):
-        if 'internal_access' in dir(Singleton):
-            if Singleton.internal_access:
-                Singleton.internal_access = False
->>>>>>> Creat_Elliptic_Curve
             else:
                 raise TypeError('you are wrong')
         else:
             raise TypeError('you are wrong')
 
-<<<<<<< HEAD
         super().__init__(
             {
                 'y^2': -1, 'x^3': 1, 'x^2': RationalNumber(a),
@@ -236,29 +227,3 @@ class RationalPointInEC:
             return self - self
         else:
             return -(self * (-other))
-=======
-        if a3 is None:
-            a3 = 1
-        if a2 is None:
-            a2 = -1
-        if a1 is None:
-            a1 = 0
-        if a0 is None:
-            a0 = 0
-
-        self.coefficients = (a3, a2, a1, a0)
-
-
-    @staticmethod
-    def get_instance(a3=None, a2=None, a1=None, a0=None):
-        if Singleton.has_instance():
-            return Singleton.instance
-        else:
-            Singleton.internal_access = True
-            Singleton.instance = Singleton(a3, a2, a1, a0)
-            return Singleton.instance
-
-    @staticmethod
-    def has_instance():
-        return 'instance' in dir(Singleton)
->>>>>>> Creat_Elliptic_Curve
