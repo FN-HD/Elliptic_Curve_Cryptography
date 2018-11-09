@@ -1,5 +1,5 @@
 from Elliptic_Curve import EC
-from Elliptic_Curve import RationalPointInEC
+from Rational_Point_In_EC import RationalPointInEC
 
 # This test source for object which we will use.
 

@@ -1,5 +1,6 @@
 from Rational_Number import RationalNumber
 
+
 class Polynomial:
     # terms is an arg for inputting dict.
     def __init__(self, terms):
@@ -12,6 +13,9 @@ class Polynomial:
                 terms[key] = RationalNumber(terms[key])
             else:
                 raise TypeError('you should input int after =, for example x_2=7')
+
+            if terms[key] == 0:
+                continue
 
             t_key = Polynomial.normalize_representation_of(key)
 
@@ -145,7 +149,7 @@ class Polynomial:
             # we can get the coefficient of the item.
             return self.terms[item]
         else:
-            return AttributeError(item)
+            raise AttributeError(item)
 
     # we can get the number of the var items.
     def __len__(self):
@@ -166,7 +170,7 @@ class Polynomial:
 
             return Polynomial(terms)
         elif isinstance(other, Polynomial):
-            print("add")
+            print("mul")
         else:
             return NotImplemented
 
@@ -278,9 +282,9 @@ class Polynomial:
             t1 = key1_split_list[k].split('^')
             t2 = key2_split_list[k].split('^')
 
-            if t1[0] > t2[0]:
+            if t1[0] < t2[0]:
                 return True
-            elif t1[0] < t2[0]:
+            elif t1[0] > t2[0]:
                 return False
 
             if int(t1[1]) > int(t2[1]):

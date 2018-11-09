@@ -1,5 +1,6 @@
 import math
 
+
 class RationalNumber:
     def __init__(self, n=0, d=1):
         if isinstance(d, int):

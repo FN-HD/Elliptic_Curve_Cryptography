@@ -1,8 +1,9 @@
 from Rational_Number import RationalNumber
 
+
 class RationalPoint:
     def __init__(self, arg):
-        if isinstance(arg,list):
+        if isinstance(arg, list):
             pass
         elif isinstance(arg, (int, RationalNumber)):
             arg = [arg]
