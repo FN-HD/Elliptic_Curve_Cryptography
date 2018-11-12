@@ -1,5 +1,7 @@
 from Rational_Number import RationalNumber
 from Polynomial import Polynomial
+from Caretaker import Caretaker
+from Memento import Memento
 
 
 # Elliptic Curve
@@ -13,12 +15,14 @@ class EC(Polynomial):
         else:
             raise TypeError('you are wrong')
 
-        super().__init__(
-            {
-                'y^2': -1, 'x^3': 1, 'x^2': RationalNumber(a),
-                'x^1': RationalNumber(b), '1': RationalNumber(c)
-             }
-        )
+        a = RationalNumber(a)
+        b = RationalNumber(b)
+        c = RationalNumber(c)
+
+        if -4*(a**3)*(c**3) + (a**2)*(b**2) + 18*a*b*c - 4*(b**3) - 27*(c**2) == 0:
+            raise TypeError('this poly has multiple root. ')
+
+        super().__init__({'y^2': -1, 'x^3': 1, 'x^2': a, 'x^1': b, '1': c})
 
     # we can check whether this function includes point(x, y).
     def includes(self, x, y):
@@ -37,17 +41,7 @@ class EC(Polynomial):
         b = self[1]
         c = self[0]
 
-        return -4*(a**3)*(c**3) + (a**2)*(b**2)\
-            + 18*a*b*c - 4*(b**3) - 27*(c**2)
-
-    # The following functions are special methods.
-    def __add__(self, other):
-        if isinstance(other, EC):
-            return EC(
-                (self[2]+other[2])/2, (self[1]+other[1])/2, (self[0]+other[0])/2
-            )
-        else:
-            return NotImplemented
+        return -4*(a**3)*(c**3) + (a**2)*(b**2) + 18*a*b*c - 4*(b**3) - 27*(c**2)
 
     # We can get a coefficient of x, which has key index.
     def __getitem__(self, item):
@@ -84,6 +78,24 @@ class EC(Polynomial):
 
     # We can remove EC.
     @staticmethod
-    def remove_instance():
+    def remove_instance(name=''):
         if EC.has_instance():
+            ct = Caretaker.get_instance()
+            ec = EC.get_instance()
+            ct.set(name, [ec[0], ec[1], ec[2]])
+
             del EC.instance
+
+    # Method for memento.
+    @staticmethod
+    def get_memento(key):
+        return Caretaker.get_instance()[key]
+
+    @staticmethod
+    def set_memento(key):
+        if isinstance(key, Memento):
+            return EC.get_instance(key.a, key.b, key.c)
+        elif isinstance(key, str):
+            return EC.set_memento(EC.get_memento(key))
+
+
