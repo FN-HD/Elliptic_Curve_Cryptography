@@ -21,8 +21,8 @@ class EC(Polynomial):
 
         if -4*(a**3)*(c**3) + (a**2)*(b**2) + 18*a*b*c - 4*(b**3) - 27*(c**2) == 0:
             raise TypeError('this poly has multiple root. ')
-
-        super().__init__({'y^2': -1, 'x^3': 1, 'x^2': a, 'x^1': b, '1': c})
+        else:
+            super().__init__({'y^2': -1, 'x^3': 1, 'x^2': a, 'x^1': b, '1': c})
 
     # we can check whether this function includes point(x, y).
     def includes(self, x, y):
@@ -30,10 +30,6 @@ class EC(Polynomial):
             return (super().input(x, 'x')).input(y, 'y')['1'] == 0
         else:
             return False
-
-    # method about check multiple root of x.
-    def has_multiple_root_of_x(self):
-        return 0 == self.get_discriminant_value_of_x()
 
     # We can get Discriminant of self equation.(f(x)=0,y=0)
     def get_discriminant_value_of_x(self):
@@ -51,13 +47,15 @@ class EC(Polynomial):
             elif 0 < item < 4:
                 item = 'x^' + str(item)
 
-        if isinstance(item, str):
-            try:
-                return super().__getitem__(item)
-            except AttributeError:
-                return 0
-        else:
+        try:
             return super().__getitem__(item)
+        except AttributeError:
+            pass
+
+        if isinstance(item, str):
+            return 0
+        else:
+            raise AttributeError(item)
 
     # The following functions are singleton methods.
     # We can get instance.

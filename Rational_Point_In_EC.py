@@ -4,13 +4,10 @@ from Elliptic_Curve import EC
 
 class RationalPointInEC:
     def __init__(self, x0=0, x1=None):
-        if not EC.has_instance():
+        if EC.has_instance():
+            self.ec = EC.get_instance()
+        else:
             raise TypeError('EC does not exist')
-
-        self.ec = EC.get_instance()
-
-        if self.ec.has_multiple_root_of_x():
-            raise TypeError('EC has multiple root for f(x)')
 
         if x0 is None or x1 is None:
             # pair = (0, None) is a point at infinity.
@@ -51,13 +48,6 @@ class RationalPointInEC:
     # Whether self is a point at infinity.
     def is_a_point_at_infinity(self):
         return self.y is None
-
-    # Whether self is in EC.
-    def is_in_EC(self):
-        if self.is_a_point_at_infinity():
-            return True
-        else:
-            return self.ec.includes(self.x, self.y)
 
     # Special method.
     # It is a method for addition.

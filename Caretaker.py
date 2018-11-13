@@ -21,7 +21,7 @@ class Caretaker:
             self.map[key] = Memento(value)
 
     def __getattr__(self, item):
-        if item in self.map.keys():
+        if item in list(self.map.keys()):
             return map[item]
         else:
             raise AttributeError(item)

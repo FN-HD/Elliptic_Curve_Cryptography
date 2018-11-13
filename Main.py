@@ -5,20 +5,20 @@ from Rational_Point_In_EC import RationalPointInEC
 
 print(EC.get_instance(0, -2))
 
-p = RationalPointInEC(2, 2)
-q = RationalPointInEC(2, -2)
+p0 = RationalPointInEC(2, 2)
+p1 = RationalPointInEC(2, -2)
 
-print(2*p)
-print(3*p+q)
-print(4*p)
-print(2*p+2*p)
-print(p+q)
-print(p-q)
-
+print()
+print(2*p0)
+print(3*p0+p1)
+print(4*p0)
+print(2*p0+2*p0)
+print(p0+p1)
+print(p0-p1)
 print()
 
 EC.remove_instance()
-print(EC.set_memento('0'))
+print(EC.get_instance(0, -1))
 
-
+q0 = RationalPointInEC(1, 0)
 
