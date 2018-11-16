@@ -1,4 +1,4 @@
-from Rational_Number import RationalNumber
+from Mods.Math.Rational_Number import RationalNumber
 
 
 class Polynomial:

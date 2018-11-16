@@ -1,4 +1,4 @@
-from Memento import Memento
+from Mods.EC.EC_Memento.Memento import Memento
 
 
 class Caretaker:

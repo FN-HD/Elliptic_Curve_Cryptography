@@ -1,15 +1,15 @@
-from Rational_Number import RationalNumber
-from Polynomial import Polynomial
-from Caretaker import Caretaker
-from Memento import Memento
+from Mods.Math.Rational_Number import RationalNumber
+from Mods.Math.Polynomial import Polynomial
+from Mods.EC.EC_Memento.Caretaker import Caretaker
+from Mods.EC.EC_Memento.Memento import Memento
 
 
 # Elliptic Curve
-class EC(Polynomial):
+class EllipticCurve(Polynomial):
     def __init__(self, a, b=0, c=0):
-        if 'internal_access' in dir(EC):
-            if EC.internal_access:
-                EC.internal_access = False
+        if 'internal_access' in dir(EllipticCurve):
+            if EllipticCurve.internal_access:
+                EllipticCurve.internal_access = False
             else:
                 raise TypeError('you are wrong')
         else:
@@ -62,27 +62,27 @@ class EC(Polynomial):
     # We cannot use default constructor.
     @staticmethod
     def get_instance(a=0, b=0, c=0):
-        if EC.has_instance():
-            return EC.instance
+        if EllipticCurve.has_instance():
+            return EllipticCurve.instance
         else:
-            EC.internal_access = True
-            EC.instance = EC(a, b, c)
-            return EC.instance
+            EllipticCurve.internal_access = True
+            EllipticCurve.instance = EllipticCurve(a, b, c)
+            return EllipticCurve.instance
 
     # Whether Ec is created.
     @staticmethod
     def has_instance():
-        return 'instance' in dir(EC)
+        return 'instance' in dir(EllipticCurve)
 
     # We can remove EC.
     @staticmethod
     def remove_instance(name=''):
-        if EC.has_instance():
+        if EllipticCurve.has_instance():
             ct = Caretaker.get_instance()
-            ec = EC.get_instance()
+            ec = EllipticCurve.get_instance()
             ct.set(name, [ec[0], ec[1], ec[2]])
 
-            del EC.instance
+            del EllipticCurve.instance
 
     # Method for memento.
     @staticmethod
@@ -92,8 +92,8 @@ class EC(Polynomial):
     @staticmethod
     def set_memento(key):
         if isinstance(key, Memento):
-            return EC.get_instance(key.a, key.b, key.c)
+            return EllipticCurve.get_instance(key.a, key.b, key.c)
         elif isinstance(key, str):
-            return EC.set_memento(EC.get_memento(key))
+            return EllipticCurve.set_memento(EllipticCurve.get_memento(key))
 
 

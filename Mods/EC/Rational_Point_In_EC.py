@@ -1,11 +1,14 @@
-from Rational_Number import RationalNumber
-from Elliptic_Curve import EC
+from Mods.Math.Rational_Number import RationalNumber
+from Mods.EC.Elliptic_Curve import EllipticCurve
 
 
 class RationalPointInEC:
     def __init__(self, x0=0, x1=None):
-        if EC.has_instance():
-            self.ec = EC.get_instance()
+        ec = None
+
+        if EllipticCurve.has_instance():
+            ec = EllipticCurve.get_instance()
+            self.ec = ec
         else:
             raise TypeError('EC does not exist')
 
@@ -18,7 +21,7 @@ class RationalPointInEC:
             x0 = RationalNumber(x0, 1)
             x1 = RationalNumber(x1, 1)
 
-        if self.ec.includes(x0, x1) or x1 is None:
+        if ec.includes(x0, x1) or x1 is None:
             self.pair = (x0, x1)
         else:
             raise TypeError('EC does not have this point')
@@ -29,6 +32,7 @@ class RationalPointInEC:
             d = 0
 
             if self == other:
+                # if self == other, they are in the same ec
                 for a in self.ec.get_differential_f('x'):
                     if a[0] == '1':
                         d += a[1]
@@ -49,6 +53,9 @@ class RationalPointInEC:
     def is_a_point_at_infinity(self):
         return self.y is None
 
+    def is_in_the_EC(self):
+        return self.ec == EllipticCurve.get_instance()
+
     # Special method.
     # It is a method for addition.
     def __add__(self, other):
@@ -60,8 +67,10 @@ class RationalPointInEC:
     # It is a method for equivalent.
     def __eq__(self, other):
         if isinstance(other, RationalPointInEC):
-            if not self.ec == other.ec:
-                return False
+            if self.is_in_the_EC() and other.is_in_the_EC():
+                pass
+            else:
+                raise TypeError('Now point is not in ec')
 
             if self.is_a_point_at_infinity():
                 return other.is_a_point_at_infinity()
@@ -115,6 +124,11 @@ class RationalPointInEC:
     def __mul_with_point(self, other):
         if not isinstance(other, RationalPointInEC):
             return NotImplemented
+
+        if self.is_in_the_EC() and other.is_in_the_EC():
+            pass
+        else:
+            raise TypeError('Now point is not in ec')
 
         if self.is_a_point_at_infinity():
             return other
