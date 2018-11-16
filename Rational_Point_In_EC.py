@@ -60,6 +60,9 @@ class RationalPointInEC:
     # It is a method for equivalent.
     def __eq__(self, other):
         if isinstance(other, RationalPointInEC):
+            if not self.ec == other.ec:
+                return False
+
             if self.is_a_point_at_infinity():
                 return other.is_a_point_at_infinity()
             else:
