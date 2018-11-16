@@ -108,6 +108,9 @@ class Polynomial:
         else:
             return NotImplemented
 
+    def __eq__(self, other):
+        return self.terms == other.terms
+
     def __getattr__(self, item):
         if item == 'vars':
             # We can get the list of strings,
