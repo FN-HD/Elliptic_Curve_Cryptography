@@ -1,6 +1,9 @@
 from Mods.EC.Elliptic_Curve import EllipticCurve
 from Mods.EC.Rational_Point_In_EC import RationalPointInEC
-from Mods.Math.Polynomial import Polynomial
+from Mods.Math.Matrix import Matrix
+
+m = Matrix([[2, 3], [23, 4]])
+print(m)
 
 print(EllipticCurve.get_instance(0, -2))
 
@@ -18,3 +21,4 @@ print('r1 + o = '+str(r1 + o))
 print('r2 + r1 = '+str(r2 + r1))
 print('2 * r1 = '+str(2*r1))
 print('\"4*r1 == 3*r1 + r1\" is ' + str(4*r1 == 3*r1 + r1))
+

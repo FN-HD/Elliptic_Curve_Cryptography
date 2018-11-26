@@ -168,12 +168,14 @@ class Polynomial:
         if isinstance(other, (int, RationalNumber, float)):
             terms = {}
             for var in self.vars:
-                t = self[var] * other
-                terms[var] = t
-
+                terms[var] = self[var] * other
             return Polynomial(terms)
         elif isinstance(other, Polynomial):
-            print("mul")
+            terms = {}
+            for var1 in self.vars:
+                for var2 in other.vars:
+                    terms[var1+'*'+var2] = self[var1] * other[var2]
+            return Polynomial(terms)
         else:
             return NotImplemented
 
@@ -182,6 +184,12 @@ class Polynomial:
 
     def __reversed__(self):
         return reversed(self.items)
+
+    def __rmul__(self, other):
+        if isinstance(other, (int, RationalNumber, float)):
+            return self * other
+        else:
+            return NotImplemented
 
     def __str__(self):
         # eq means the right-hand side, such as polynomial.
@@ -226,28 +234,32 @@ class Polynomial:
     # we can normalize representation of key of term
     @staticmethod
     def normalize_representation_of(key):
-        if key == '1':
-            return key
+        splited_key_dic = {}
 
-        key_split_list = sorted(key.split('*'))
+        for k in sorted(key.split('*')):
+            value = k
+            index = 1
 
-        k = 0
+            if '^' in k:
+                value = k.split('^')[0]
+                index = int(k.split('^')[1])
+            elif k == '1':
+                index = 0
 
-        while k < len(key_split_list):
-            if key_split_list[k] == '1':
-                del key_split_list
-            elif len(key_split_list[k].split('^')) == 1:
-                key_split_list[k] = key_split_list[k] + '^1'
-                k += 1
-            elif key_split_list[k].split('^')[1] == '0':
-                del key_split_list[k]
+            if index == 0:
+                continue
+            elif index < 0:
+                raise TypeError('you input wrong. index='+str(index))
+
+            if value in splited_key_dic.keys():
+                splited_key_dic[value] = index + splited_key_dic[value]
             else:
-                k += 1
+                splited_key_dic[value] = index
 
-        if len(key_split_list) == 0:
+        if splited_key_dic == {}:
             return '1'
         else:
-            return '*'.join(key_split_list)
+            return '*'.join([k+'^'+str(splited_key_dic[k]) for k in splited_key_dic.keys()])
 
     # we can sort key of term.
     @staticmethod
