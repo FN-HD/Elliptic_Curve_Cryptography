@@ -1,50 +1,50 @@
 from Mods.Math.Rational_Number import RationalNumber
+from Mods.Math.Matrix import Matrix
 
 
-class RationalPoint:
-    def __init__(self, arg):
-        if isinstance(arg, list):
-            pass
-        elif isinstance(arg, (int, RationalNumber)):
-            arg = [arg]
+class RationalPoint(Matrix):
+    def __init__(self, comps):
+        if isinstance(comps, list):
+            super().__init__([[comp] for comp in comps])
+        elif isinstance(comps, (int, float, RationalNumber)):
+            super().__init__([[comps]])
         else:
-            raise TypeError('you should input list or RationalNumber')
-
-        k = 0
-
-        while k < len(arg):
-            arg[k] = RationalNumber(arg[k])
-            k = k + 1
-
-        self.pair = tuple(arg[k])
-
-    def __add__(self, other):
-        if isinstance(other, RationalNumber):
-            if len(self) == len(other):
-                return NotImplemented
-
-            new_list = []
-
-            for i, x in enumerate(self):
-                new_list[i] = x + other[i]
-
-            return RationalPoint(new_list)
-        else:
-            return NotImplemented
-
-    def __getattr__(self, item):
-        if item == 'list':
-            return list(self.pair)
-        else:
-            raise AttributeError(item)
+            raise TypeError('you input wrong')
 
     def __getitem__(self, item):
         if isinstance(item, int):
-            if 0 <= item < len(self.pair):
-                return self.pair[item]
+            if 0 <= item < len(self):
+                return self[[item, 0]]
             raise TypeError('out of list')
         else:
-            raise AttributeError(item)
+            return super().__getitem__(item)
+
+    def __iter__(self):
+        return RationalPointIter(self)
+
+    def __mul__(self, other):
+        if isinstance(other, RationalPoint):
+            if len(self) != len(other):
+                raise TypeError('you can not do bracket')
+            return sum([comp + other[i] for i, comp in enumerate(self)])
+        else:
+            return super().__mul__(other)
 
     def __len__(self, other):
-        return len(self.pair)
+        return self.row_size
+
+
+class RationalPointIter:
+    def __init__(self,point):
+        self.index = 0
+        self.term = point.args
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index >= len(self.term):
+            raise StopIteration
+        v = self.term[self.index][0]
+        self.index += 1
+        return v

@@ -2,7 +2,7 @@ from Mods.Math.Rational_Number import RationalNumber
 
 
 class Matrix:
-    def __init__(self, args=[[]]):
+    def __init__(self, args):
         if not isinstance(args, (list, tuple)):
             raise TypeError('args is not list')
 
@@ -34,7 +34,7 @@ class Matrix:
             if other.size != self.size:
                 raise TypeError('both size are not same.')
             return Matrix([
-                [comp + other[i][j] for j, comp in enumerate(row)]for i,row in enumerate(self)
+                [comp + other[i][j] for j, comp in enumerate(row)]for i, row in enumerate(self)
             ])
         else:
             return NotImplemented
@@ -92,7 +92,7 @@ class Matrix:
         matrix_str = ''
 
         for row in self:
-            matrix_str += '(' +','.join(
+            matrix_str += '('+','.join(
                 [' '*(8-len(str(comp)))+str(comp) for comp in row]
             ) + ') \n'
 
@@ -113,4 +113,3 @@ class MatrixIter:
         v = list(self.terms[self.index])
         self.index += 1
         return v
-

@@ -1,13 +1,9 @@
 from Mods.EC.Elliptic_Curve import EllipticCurve
 from Mods.EC.Rational_Point_In_EC import RationalPointInEC
-from Mods.Math.Matrix import Matrix
-
-m = Matrix([[2, 3], [23, 4]])
-print(m)
 
 print(EllipticCurve.get_instance(0, -2))
 
-o = RationalPointInEC(0, 0)
+o = RationalPointInEC()
 r1 = RationalPointInEC(-1, 1)
 r2 = RationalPointInEC(2, 2)
 

@@ -11,7 +11,7 @@ class TestEllipticCurve(TestCase):
 
         for a in ec.terms.keys():
             self.assertEqual(ec.terms[a], terms[a])
-
+ 
         self.assertTrue(ec.includes(2, 2))
         self.assertTrue(ec.includes(-1, 1))
 

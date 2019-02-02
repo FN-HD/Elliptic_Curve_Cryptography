@@ -60,6 +60,10 @@ class RationalPointInEC:
     # It is a method for addition.
     def __add__(self, other):
         if isinstance(other, RationalPointInEC):
+            if self.is_a_point_at_infinity():
+                return other
+            elif other.is_a_point_at_infinity():
+                return self
             return -(self*other)
         else:
             return NotImplemented
@@ -148,11 +152,19 @@ class RationalPointInEC:
         if not isinstance(other, int):
             return NotImplemented
 
-        if other > 1:
-            return self * (other - 1) + self
-        elif other == 1:
-            return self
-        elif other == 0:
-            return self - self
-        else:
-            return -(self * (-other))
+        ans = RationalPointInEC()
+        if other == 0:
+            return ans
+        elif other % 2 == 1:
+            ans = self
+        return ans + (self+self)*(other//2)
+
+
+#        if other > 1:
+#            return self * (other - 1) + self
+#        elif other == 1:
+#            return self
+#        elif other == 0:
+#            return self - self
+#        else:
+#            return -(self * (-other))
